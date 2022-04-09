@@ -1,4 +1,4 @@
-export const CONTRACT_ADDRESS = "0xfBB3D6354CE86A23a1A0e731414a440dA5d154aE"
+export const CONTRACT_ADDRESS = "0xDc47bA5F1E17394CDE985604E988a32D5e6BafCb"
 export const OPENSEA_LINK = "https://testnets.opensea.io/collection/squarenft-xqopodtnkl"
 export const ABI = [
   {
@@ -101,6 +101,19 @@ export const ABI = [
     "type": "event"
   },
   {
+    "inputs": [],
+    "name": "MAX_SUPPLY",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "address",
@@ -151,6 +164,19 @@ export const ABI = [
         "internalType": "address",
         "name": "",
         "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getTotalNFTsMintedSoFar",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
       }
     ],
     "stateMutability": "view",
