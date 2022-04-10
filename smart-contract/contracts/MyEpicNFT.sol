@@ -16,90 +16,28 @@ contract MyEpicNFT is ERC721URIStorage {
 
   uint public constant MAX_SUPPLY = 50;
 
-  string svgPartOne = "<svg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='xMinYMin meet' viewBox='0 0 350 350'><style>.base { fill: white; font-family: serif; font-size: 24px; }</style><rect width='100%' height='100%' fill='";
-  string svgPartTwo = "'/><text x='50%' y='50%' class='base' dominant-baseline='middle' text-anchor='middle'>";
-
-  string[] firstWords = ["Happy", "Sad", "Flat"];
-  string[] secondWords = ["Big", "Small", "Medium"];
-  string[] thirdWords = ["Marmot", "Bear", "Wolf"];
-  string[] colors = ["red", "#08C2A8", "black", "yellow", "blue", "green"];
-
   event NewEpicNFTMinted(address sender, uint256 tokenId);
 
   constructor() ERC721 ("SquareNFT", "SQUARE") {
     console.log("This is my NFT contract. Woah!");
   }
 
-  function pickRandomFirstWord(uint256 tokenId) public view returns (string memory) {
-    uint256 rand = random(string(abi.encodePacked("FIRST_WORD", Strings.toString(tokenId))));
-    rand = rand % firstWords.length;
-    return firstWords[rand];
-  }
-
-  function pickRandomSecondWord(uint256 tokenId) public view returns (string memory) {
-    uint256 rand = random(string(abi.encodePacked("SECOND_WORD", Strings.toString(tokenId))));
-    rand = rand % secondWords.length;
-    return secondWords[rand];
-  }
-
-  function pickRandomThirdWord(uint256 tokenId) public view returns (string memory) {
-    uint256 rand = random(string(abi.encodePacked("THIRD_WORD", Strings.toString(tokenId))));
-    rand = rand % thirdWords.length;
-    return thirdWords[rand];
-  }
-
-   function pickRandomColor(uint256 tokenId) public view returns (string memory) {
-    uint256 rand = random(string(abi.encodePacked("COLOR", Strings.toString(tokenId))));
-    rand = rand % colors.length;
-    return colors[rand];
-  }
-
-  function random(string memory input) internal pure returns (uint256) {
-      return uint256(keccak256(abi.encodePacked(input)));
-  }
-
-  function makeAnEpicNFT() public {
+  function makeAnEpicNFT(string calldata cid) public {
     uint256 newItemId = _tokenIds.current();
 
     require(newItemId < MAX_SUPPLY, "Not enough NFTs left!");
 
-    string memory first = pickRandomFirstWord(newItemId);
-    string memory second = pickRandomSecondWord(newItemId);
-    string memory third = pickRandomThirdWord(newItemId);
-    string memory combinedWord = string(abi.encodePacked(first, second, third));
+    // uint256 _price = price(name);
+    // require(msg.value >= _price, "Not enough Matic paid");
+		
+    console.log("Registering %s.%s on the contract with tokenID %d", newItemId);
+    string memory finalTokenUri = string(abi.encodePacked("ipfs://", cid));
+  
+    console.log("\n--------------------------------------------------------");
+	  console.log("Final tokenURI", finalTokenUri);
+	  console.log("--------------------------------------------------------\n");
 
-    string memory randomColor = pickRandomColor(newItemId);
-    string memory finalSvg = string(abi.encodePacked(svgPartOne, randomColor, svgPartTwo, combinedWord, "</text></svg>"));
-
-    // Get all the JSON metadata in place and base64 encode it.
-    string memory json = Base64.encode(
-        bytes(
-            string(
-                abi.encodePacked(
-                    '{"name": "',
-                    // We set the title of our NFT as the generated word.
-                    combinedWord,
-                    '", "description": "A highly acclaimed collection of squares.", "image": "data:image/svg+xml;base64,',
-                    // We add data:image/svg+xml;base64 and then append our base64 encode our svg.
-                    Base64.encode(bytes(finalSvg)),
-                    '"}'
-                )
-            )
-        )
-    );
-
-    // Just like before, we prepend data:application/json;base64, to our data.
-    string memory finalTokenUri = string(
-        abi.encodePacked("data:application/json;base64,", json)
-    );
-
-    console.log("\n--------------------");
-    console.log(finalTokenUri);
-    console.log("--------------------\n");
-
-    _safeMint(msg.sender, newItemId);
-    
-    // Update your URI!!!
+    _safeMint(msg.sender, newItemId); // Update your URI!!!
     _setTokenURI(newItemId, finalTokenUri);
   
     _tokenIds.increment();
