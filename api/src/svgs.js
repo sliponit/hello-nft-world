@@ -1,3 +1,6 @@
+const MAX_SUPPLY = 16
+import alives from './alives.json'
+
 export const happies = [
   `<svg width="256" height="256" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
   <rect x="0.5" y="0.5" width="255" height="247.917" fill="white" stroke="black"/>
@@ -201,12 +204,23 @@ const shuffle = [
   2, 13,  1, 4, 10,  5,
  14,  6, 15, 7]
 
+
 const svgs = happies.concat(sads).flat()
 
 export const baseSvgs = shuffle.map(id => svgs[id])
 
 export const nullSvg = (input) => {
-  const svgStart =`<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMin meet" viewBox="0 0 350 350"><style>.base { fill: white; font-family: serif; font-size: 14px; }</style><rect width="100%" height="100%" fill="black" /><text x="50%" y="50%" class="base" dominant-baseline="middle" text-anchor="middle">`
+  const svgStart =`<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMin meet" viewBox="0 0 256 256"><style>.base { fill: white; font-family: serif; font-size: 14px; }</style><rect width="100%" height="100%" fill="black" /><text x="50%" y="50%" class="base" dominant-baseline="middle" text-anchor="middle">`
   const svgEnd = `</text></svg>`
   return svgStart + input + svgEnd 
 }
+
+const cids = ['QmPU7oGJ5MDFHe1TAZGGvAZQLK9qcPrEvk2GUQpAqU7ZMx']
+
+// export const alives = Array(MAX_SUPPLY).fill(true)
+
+export const data = Array.from(Array(MAX_SUPPLY).keys()).map((i) => ({
+  duration: shuffle[i],
+  svg: alives[i] ? svgs[shuffle[i]] : nullSvg(i),
+  cid: cids[0] // TODO
+}))

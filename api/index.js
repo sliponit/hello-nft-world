@@ -1,5 +1,5 @@
 import { Router } from 'itty-router'
-import { baseSvgs, nullSvg } from './src/svgs'
+import { data } from './src/svgs'
 
 // Create a new router
 const router = Router()
@@ -28,9 +28,21 @@ router.get("/example/:text", async({ params }) => {
 router.get("/svg/:id", async({ params }) => {
   // TODO: try/catch 
   const { id } = params
-  const svg = baseSvgs[id] //  await SCC.get('data', { type: 'json' })
-  const headers = { 'Content-Type': 'image/svg+xml' }
-  return new Response(svg, { headers })
+  if (0 <= id && id <= 40) {
+    const { svg } = data[id]
+    const headers = { 'Content-Type': 'image/svg+xml' }
+    return new Response(svg, { headers })
+  } else {
+    new Response("404, not found!", { status: 404 })
+  }
+})
+
+router.get("/cid/:id", async({ params }) => {
+  const { id } = params
+  // const data = await SCC.get('data', { type: 'json' })
+  const { cid } = 'TODO' // data[id]
+  const headers = { "Content-Type": "application/json" }
+  return new Response(JSON.stringify({ cid }), { headers })
 })
 
 /*
