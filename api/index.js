@@ -1,4 +1,5 @@
 import { Router } from 'itty-router'
+import { baseSvgs, nullSvg } from './src/svgs'
 
 // Create a new router
 const router = Router()
@@ -19,12 +20,17 @@ Try visit /example/hello and see the response.
 router.get("/example/:text", async({ params }) => {
   // Decode text like "Hello%20world" into "Hello world"
   const input = decodeURIComponent(params.text)
-
-  const svgStart =`<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMin meet" viewBox="0 0 350 350"><style>.base { fill: white; font-family: serif; font-size: 14px; }</style><rect width="100%" height="100%" fill="black" /><text x="50%" y="50%" class="base" dominant-baseline="middle" text-anchor="middle">`
-  const svgEnd = `</text></svg>` 
+  const svg = nullSvg(input)
   const headers = { 'Content-Type': 'image/svg+xml' }
-  
-  return new Response(svgStart + input + svgEnd, { headers })
+  return new Response(svg, { headers })
+})
+
+router.get("/svg/:id", async({ params }) => {
+  // TODO: try/catch 
+  const { id } = params
+  const svg = baseSvgs[id] //  await SCC.get('data', { type: 'json' })
+  const headers = { 'Content-Type': 'image/svg+xml' }
+  return new Response(svg, { headers })
 })
 
 /*
