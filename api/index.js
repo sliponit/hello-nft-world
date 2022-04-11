@@ -1,5 +1,5 @@
 import { Router } from 'itty-router'
-import fetchSvg from './src/svgs'
+import fetchSvg from './src/fetchSvg'
 
 // Create a new router
 const router = Router()
@@ -38,8 +38,8 @@ router.get("/svg/:id", async({ params }) => {
 
 router.get("/cid/:id", async({ params }) => {
   const { id } = params
-  // const data = await SCC.get('data', { type: 'json' })
-  const { cid } = 'TODO' // data[id]
+  const data = await SCC.get('data', { type: 'json' })
+  const { cid } = data[id]
   const headers = { "Content-Type": "application/json" }
   return new Response(JSON.stringify({ cid }), { headers })
 })
