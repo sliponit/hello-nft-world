@@ -1,5 +1,5 @@
 import { Router } from 'itty-router'
-import fetchSvg from './src/fetchSvg'
+import fetchSvg, { nullSvg } from './src/fetchSvg'
 
 // Create a new router
 const router = Router()
