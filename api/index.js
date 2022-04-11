@@ -1,5 +1,5 @@
 import { Router } from 'itty-router'
-import { data } from './src/svgs'
+import fetchSvg from './src/svgs'
 
 // Create a new router
 const router = Router()
@@ -29,9 +29,8 @@ router.get("/svg/:id", async({ params }) => {
   // TODO: try/catch 
   const { id } = params
   if (0 <= id && id <= 40) {
-    const { svg } = data[id]
     const headers = { 'Content-Type': 'image/svg+xml' }
-    return new Response(svg, { headers })
+    return new Response(await fetchSvg(id), { headers })
   } else {
     new Response("404, not found!", { status: 404 })
   }
