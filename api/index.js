@@ -1,5 +1,6 @@
 import { Router } from 'itty-router'
 import fetchSvg, { nullSvg } from './src/fetchSvg'
+import postEvents from './src/postEvents'
 
 // Create a new router
 const router = Router()
@@ -53,24 +54,18 @@ Try the below curl command to send JSON:
 
 $ curl -X POST <worker> -H "Content-Type: application/json" -d '{"abc": "def"}'
 */
-router.post("/post", async request => {
-  // Create a base object with some fields.
-  let fields = {
-    "asn": request.cf.asn,
-    "colo": request.cf.colo
-  }
+router.post("/events", async request => {
+  // TODO if (request.headers.get('X-API-KEY') !== X_API_KEY) {
+  //   return new Response('Forbidden', { status: 403 })
+  // }
 
-  // If the POST data is JSON then attach it to our response.
-  if (request.headers.get("Content-Type") === "application/json") {
-    fields["json"] = await request.json()
-  }
+  // TODO if (request.headers.get("Content-Type") === "application/json") {
 
-  // Serialise the JSON to a string.
-  const returnData = JSON.stringify(fields, null, 2);
-
-  return new Response(returnData, {
+  const data = await request.json()
+  await postEvents(data)
+  return new Response(JSON.stringify(data), {
     headers: {
-      "Content-Type": "application/json"
+      'Content-type': 'application/json'
     }
   })
 })

@@ -10,5 +10,5 @@ export const nullSvg = (input) => {
 
 export default async (i) => {
   const values = await SCC.get('data', { type: 'json' })
-  return values[i].duration ? baseSvgs[i] : nullSvg(i) // TODO alive
+  return values[i].hibernate ? nullSvg(i) : baseSvgs[i]
 }
