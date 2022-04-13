@@ -21,10 +21,12 @@ router.get("/", () => {
 router.get("/data", async () => {
   const data = await SCC.get('data', { type: 'json' })
   const now = new Date().valueOf() / 1000
-  const tokens = data.filter(token => token.minter).map(({ duration, hibernateEnd, sleepEnd}) => ({
-    duration,
-    state: hibernateEnd && now < hibernateEnd ? 'hibernation' : (sleepEnd && now < sleepEnd ? 'asleep' : 'awake')
-  })) // todo baseSvg/nullSvg
+  const tokens = data
+    .filter(token => token.minter)
+    .map(({ duration, hibernateEnd, sleepEnd}) => ({
+      duration,
+      state: hibernateEnd && now < hibernateEnd ? `hibernation for ${duration}d` : (sleepEnd && now < sleepEnd ? `asleep for ${duration}h` : 'awake')
+    })) // todo baseSvg/nullSvg
   const headers = { ...corsHeaders, 'Content-type': 'application/json' }
   return new Response(JSON.stringify({ tokens }), { headers })
 })

@@ -104,18 +104,20 @@
 
 .row {
   margin: 8px -16px;
+  max-width: 1200px;
+  margin: auto;
 }
 
-/* Add padding BETWEEN each column (if you want) */
+/* Add padding BETWEEN each column (if you want) 
 .row,
 .row > .column {
   padding: 8px;
-}
+} */
 
 /* Create four equal columns that floats next to each other */
 .column {
   float: left;
-  width: 12.5%;
+  width: 25%;
 }
 
 /* Clear floats after rows */

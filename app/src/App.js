@@ -171,11 +171,13 @@ const App = () => {
   )
 
   const renderMinted = () => (
-    tokens.map((token, id) => // <a key={id} href={tokenAddress(id)} target="blank_"></a>
+    tokens.map((token, id) => // 
       <div className="column" key={id}>
         <div className="content">
-          <img src={WORKER_URL + '/svg/' + id} alt={token.id} className="img-cent" />
-          <p className="footer-text">{`${token.state}- sleep time ${token.duration}h`}</p>
+          <a href={tokenAddress(id)} target="blank_">
+            <img src={WORKER_URL + '/svg/' + id} alt={token.id} className="img-cent" />
+          </a>
+          <p className="footer-text">{token.state}</p>
         </div>
       </div>
     )
@@ -185,12 +187,13 @@ const App = () => {
     <div className="App">
       <div className="container">
         <div className="header-container">
-          <p className="header gradient-text">My NFT Collection</p>
+          <p className="header gradient-text">Sleepy Cartoon Characters NFT Collection</p>
           <p className="sub-text">
-            Each unique. Each beautiful. Discover your NFT today.
+            A collection of 40 Sleepy Cartoon Characters
           </p>
           {currentAccount === "" ? renderNotConnectedContainer() : renderMintUI()}
         </div>
+        <h2 className="sub-text">Gallery</h2>
         <div className="row">
           {renderMinted()}
         </div>
