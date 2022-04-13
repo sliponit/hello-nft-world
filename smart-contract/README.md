@@ -9,7 +9,7 @@ npx hardhat accounts
 npx hardhat compile
 npx hardhat clean
 node scripts/sample-script.js
-npx hardhat run scripts/deploy.js
+npx hardhat run scripts/run.js
 npx hardhat run scripts/deploy.js --network rinkeby
 npx hardhat verify 0x8Eb1372B94De4578623e6e34D5f951f07B23ed7B --network rinkeby
 ```

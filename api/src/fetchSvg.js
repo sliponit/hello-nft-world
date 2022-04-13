@@ -6,17 +6,22 @@ const signature = address => `<style>.base { fill: grey; font-family: serif; fon
 export const nullSvg = (address) => {
   const svgStart =`<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMin meet" viewBox="0 0 256 256"><rect width="100%" height="100%" fill="black" />`
   const svgEnd = `</svg>`
-  return svgStart + signature(address) + svgEnd 
+  return svgStart + signature(address) + svgEnd
 }
 
-const mintedSvg = (i, address) => {
-  const base = baseSvgs[i]
+const mintedSvg = (i, address, asleep) => {
+  let base = baseSvgs[i].slice(0, baseSvgs[i].length - 6)
+  if (asleep) base = base.replaceAll('white', 'lightgray')
+
   const svgEnd = `</svg>`
-  return base.slice(0, base.length - 6) + signature(address) + svgEnd 
+  return base + signature(address) + svgEnd
 }
 
 export default async (i) => {
   const values = await SCC.get('data', { type: 'json' })
   const { hibernateEnd, sleepEnd, minter } = values[i] // TODO
-  return hibernateEnd && new Date().valueOf() / 1000 < hibernateEnd ? nullSvg(minter) : mintedSvg(i, minter)
+  const now = new Date().valueOf()
+  if (hibernateEnd && now / 1000 < hibernateEnd) return nullSvg(minter)
+  else if (sleepEnd && now / 1000 < sleepEnd) return mintedSvg(i, minter, true)
+  else return mintedSvg(i, minter, false)
 }
