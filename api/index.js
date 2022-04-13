@@ -8,8 +8,7 @@ const router = Router()
 const corsHeaders = {
   'Access-Control-Allow-Headers': '*',
   'Access-Control-Allow-Methods': 'GET,POST',
-  'Access-Control-Allow-Origin': '*', // 'http://localhost/3000',
-  'Content-type': 'application/json'
+  'Access-Control-Allow-Origin': '*' // 'http://localhost/3000'
 }
 
 /*
@@ -48,7 +47,8 @@ router.get("/cid/:id", async({ params }) => {
   const { id } = params
   const data = await SCC.get('data', { type: 'json' })
   const { cid } = data[id]
-  return new Response(JSON.stringify({ cid }), { headers: corsHeaders })
+  const headers = { ...corsHeaders, 'Content-type': 'application/json' }
+  return new Response(JSON.stringify({ cid }), { headers })
 })
 
 // curl -X POST <worker> -H "Content-Type: application/json" -d '{"abc": "def"}'
@@ -66,6 +66,8 @@ router.post("/events", async request => {
   })
 })
 
+router.options('/minter', () => new Response('OK', { headers: corsHeaders }))
+
 router.post("/minter", async request => {
   // TODO if (request.headers.get('X-API-KEY') !== X_API_KEY) {
   //   return new Response('Forbidden', { status: 403 })
@@ -77,7 +79,8 @@ router.post("/minter", async request => {
   
   data[id].minter = minter
   await SCC.put('data', JSON.stringify(data))
-  return new Response(JSON.stringify({ id, minter }), { headers: corsHeaders })
+  const headers = { ...corsHeaders, 'Content-type': 'application/json' }
+  return new Response(JSON.stringify({ id, minter }), { headers })
 })
 
 /*

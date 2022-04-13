@@ -110,7 +110,7 @@ const App = () => {
         await nftTxn.wait();
         console.log(nftTxn);
         console.log(`Mined, see transaction: https://rinkeby.etherscan.io/tx/${nftTxn.hash}`);
-        // await postMinter({ id, minter: currentAccount })
+        await postMinter({ id, minter: currentAccount })
       } else {
         console.log("Ethereum object doesn't exist!");
       }
