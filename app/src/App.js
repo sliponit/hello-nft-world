@@ -8,9 +8,12 @@ const TOTAL_MINT_COUNT = 50;
 const PRICE = '0.1';
 const WORKER_URL = 'https://nft-api.sliponit9471.workers.dev'
 
+const tokenAddress = id => `https://testnets.opensea.io/assets/${CONTRACT_ADDRESS}/${id}`
+
 const App = () => {
   const [currentAccount, setCurrentAccount] = useState("");
   const [total, setTotal] = useState(0);
+  const [tokens, setTokens] = useState([])
   
   const checkIfWalletIsConnected = async () => {
     const { ethereum } = window;
@@ -75,7 +78,7 @@ const App = () => {
         // If you're familiar with webhooks, it's very similar to that!
         connectedContract.on("NewEpicNFTMinted", (from, tokenId) => {
           console.log(from, tokenId.toNumber())
-          alert(`Hey there! We've minted your NFT and sent it to your wallet. It may be blank right now. It can take a max of 10 min to show up on OpenSea. Here's the link: https://testnets.opensea.io/assets/${CONTRACT_ADDRESS}/${tokenId.toNumber()}`)
+          alert(`Hey there! We've minted your NFT and sent it to your wallet. It may be blank right now. It can take a max of 10 min to show up on OpenSea. Here's the link: ${tokenAddress(tokenId.toNumber())}`)
         });
 
         console.log("Setup event listener!")
@@ -133,8 +136,15 @@ const App = () => {
     return response.json()
   }
 
+  const fetchData = async () => {
+    const response = await fetch(WORKER_URL + '/data');
+    const data = await response.json()
+    setTokens(data.tokens)
+  }
+
   useEffect(() => {
     checkIfWalletIsConnected();
+    fetchData();
   }, [])
 
   // Render Methods
@@ -158,6 +168,19 @@ const App = () => {
     </div>
   )
 
+  const renderMinted = () => (
+    tokens.map((token, id) =>
+      <span className="footer-text">
+        <span>
+          <a key={id} href={tokenAddress(id)} target="blank_">
+            <img src={WORKER_URL + '/svg/' + id} />
+          </a>
+        </span>
+        <span>{token.duration}</span>
+      </span>
+    )
+  )
+
   return (
     <div className="App">
       <div className="container">
@@ -167,6 +190,9 @@ const App = () => {
             Each unique. Each beautiful. Discover your NFT today.
           </p>
           {currentAccount === "" ? renderNotConnectedContainer() : renderMintUI()}
+        </div>
+        <div className="body-container">
+          {renderMinted()}
         </div>
         <div className="footer-container">
           <img alt="Opensea Logo" className="opensea-logo" src={openseaLogo} />

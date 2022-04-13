@@ -18,18 +18,11 @@ router.get("/", () => {
   return new Response("Hello, world! This is the root page of your Worker template.")
 })
 
-/*
-This route demonstrates path parameters, allowing you to extract fragments from the request
-URL.
-
-Try visit /example/hello and see the response.
-*/
-router.get("/example/:text", async({ params }) => {
-  // Decode text like "Hello%20world" into "Hello world"
-  const input = decodeURIComponent(params.text)
-  const svg = nullSvg(input)
-  const headers = { 'Content-Type': 'image/svg+xml' }
-  return new Response(svg, { headers })
+router.get("/data", async () => {
+  const data = await SCC.get('data', { type: 'json' })
+  const tokens = data.filter(token => token.minter)
+  const headers = { ...corsHeaders, 'Content-type': 'application/json' }
+  return new Response(JSON.stringify({ tokens }), { headers })
 })
 
 router.get("/svg/:id", async({ params }) => {

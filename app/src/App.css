@@ -71,11 +71,22 @@
   font-weight: bold;
 }
 
+.body-container {
+  padding-top: 30px;
+}
+
+.asset-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
 .footer-container {
   display: flex;
   justify-content: center;
   align-items: center;
   padding-bottom: 30px;
+  padding-top: 30px;
 }
 
 .opensea-logo {
