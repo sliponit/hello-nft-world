@@ -7,15 +7,15 @@ export default async ({ createds, successfuls }) => {
   if (successfuls.length) {
     successfuls.forEach(({ token_id: i, listing_time }) => {
       const timestamp = Date.parse(listing_time) / 1000
-      data[i].wakeUpTime = timestamp + (data[i].duration + 8) * 3600 // TODO 8
+      data[i].sleepEnd = timestamp + data[i].duration * 3600
     })
   }
 
   if (createds.length) {
     createds.forEach(({ token_id: i, created_date }) => {
       const timestamp = Date.parse(created_date) / 1000
-      const { wakeUpTime } = data[i]
-      if (wakeUpTime && timestamp < wakeUpTime) data[i].hibernate = true // TODO time
+      const { sleepEnd } = data[i]
+      if (sleepEnd && timestamp < sleepEnd) data[i].hibernateEnd = timestamp + data[i].duration * 3600 * 24
     })
   }
 
