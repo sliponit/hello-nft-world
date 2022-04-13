@@ -8,9 +8,8 @@ Try running some of the following tasks:
 npx hardhat accounts
 npx hardhat compile
 npx hardhat clean
-npx hardhat test
-npx hardhat node
 node scripts/sample-script.js
+npx hardhat run scripts/deploy.js
 npx hardhat run scripts/deploy.js --network rinkeby
-npx hardhat help
+npx hardhat verify 0x8Eb1372B94De4578623e6e34D5f951f07B23ed7B --network rinkeby
 ```

@@ -5,6 +5,13 @@ import postEvents from './src/postEvents'
 // Create a new router
 const router = Router()
 
+const corsHeaders = {
+  'Access-Control-Allow-Headers': '*',
+  'Access-Control-Allow-Methods': 'GET,POST',
+  'Access-Control-Allow-Origin': '*', // 'http://localhost/3000',
+  'Content-type': 'application/json'
+}
+
 /*
 Our index route, a simple hello world.
 */
@@ -41,26 +48,15 @@ router.get("/cid/:id", async({ params }) => {
   const { id } = params
   const data = await SCC.get('data', { type: 'json' })
   const { cid } = data[id]
-  const headers = { "Content-Type": "application/json" }
-  return new Response(JSON.stringify({ cid }), { headers })
+  return new Response(JSON.stringify({ cid }), { headers: corsHeaders })
 })
 
-/*
-This shows a different HTTP method, a POST.
-
-Try send a POST request using curl or another tool.
-
-Try the below curl command to send JSON:
-
-$ curl -X POST <worker> -H "Content-Type: application/json" -d '{"abc": "def"}'
-*/
+// curl -X POST <worker> -H "Content-Type: application/json" -d '{"abc": "def"}'
 router.post("/events", async request => {
   // TODO if (request.headers.get('X-API-KEY') !== X_API_KEY) {
   //   return new Response('Forbidden', { status: 403 })
   // }
-
-  // TODO if (request.headers.get("Content-Type") === "application/json") {
-
+  // if (request.headers.get("Content-Type") === "application/json") {
   const data = await request.json()
   await postEvents(data)
   return new Response(JSON.stringify(data), {
@@ -68,6 +64,20 @@ router.post("/events", async request => {
       'Content-type': 'application/json'
     }
   })
+})
+
+router.post("/minter", async request => {
+  // TODO if (request.headers.get('X-API-KEY') !== X_API_KEY) {
+  //   return new Response('Forbidden', { status: 403 })
+  // }
+  // if (request.headers.get("Content-Type") === "application/json") {
+  const { id, minter } = await request.json()
+  const data = await SCC.get('data', { type: 'json' })
+  if (data[id].minter) return new Response('Forbidden', { status: 403 })
+  
+  data[id].minter = minter
+  await SCC.put('data', JSON.stringify(data))
+  return new Response(JSON.stringify({ id, minter }), { headers: corsHeaders })
 })
 
 /*

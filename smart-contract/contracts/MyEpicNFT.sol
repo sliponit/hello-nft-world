@@ -16,19 +16,23 @@ contract MyEpicNFT is ERC721URIStorage {
 
   uint public constant MAX_SUPPLY = 50;
 
+  mapping (uint => address) public minters;
+  
+  address payable public owner;
+
   event NewEpicNFTMinted(address sender, uint256 tokenId);
 
-  constructor() ERC721 ("SquareNFT", "SQUARE") {
-    console.log("This is my NFT contract. Woah!");
+  constructor() payable ERC721 ("SquareNFT", "SQUARE")  {
+    owner = payable(msg.sender);
+    console.log("TODO This is my NFT contract. Woah!");
   }
 
-  function makeAnEpicNFT(string calldata cid) public {
+  function makeAnEpicNFT(string calldata cid) public payable  {
     uint256 newItemId = _tokenIds.current();
 
     require(newItemId < MAX_SUPPLY, "Not enough NFTs left!");
-
-    // uint256 _price = price(name);
-    // require(msg.value >= _price, "Not enough Matic paid");
+    require(msg.value >= 0.1 ether, "Not enough ETH sent: check price.");
+    // TODO check minters
 		
     console.log("Registering %s.%s on the contract with tokenID %d", newItemId);
     string memory finalTokenUri = string(abi.encodePacked("ipfs://", cid));
@@ -39,6 +43,7 @@ contract MyEpicNFT is ERC721URIStorage {
 
     _safeMint(msg.sender, newItemId); // Update your URI!!!
     _setTokenURI(newItemId, finalTokenUri);
+    minters[newItemId] = msg.sender;
   
     _tokenIds.increment();
     console.log("An NFT w/ ID %s has been minted to %s", newItemId, msg.sender);
@@ -48,4 +53,31 @@ contract MyEpicNFT is ERC721URIStorage {
   function getTotalNFTsMintedSoFar () public view returns (uint256) {
     return _tokenIds.current();
   }
+
+  function getAllMinters() public view returns (address[] memory) {
+    console.log("Getting all minters from contract");
+    address[] memory allMinters = new address[](_tokenIds.current());
+    for (uint i = 0; i < _tokenIds.current(); i++) {
+      allMinters[i] = minters[i];
+      console.log("Minter for token %d is %s", i, allMinters[i]);
+    }
+
+    return allMinters;
+  }
+
+  modifier onlyOwner() {
+    require(isOwner());
+    _;
+  }
+
+  function isOwner() public view returns (bool) {
+    return msg.sender == owner;
+  }
+
+  function withdraw() public onlyOwner {
+    uint amount = address(this).balance;
+    
+    (bool success, ) = msg.sender.call{value: amount}("");
+    require(success, "Failed to withdraw");
+  } 
 }

@@ -5,6 +5,8 @@ import React, { useEffect, useState } from "react";
 import { ABI, CONTRACT_ADDRESS, OPENSEA_LINK } from './utils/contract';
 
 const TOTAL_MINT_COUNT = 50;
+const PRICE = '0.1';
+const WORKER_URL = 'https://nft-api.sliponit9471.workers.dev'
 
 const App = () => {
   const [currentAccount, setCurrentAccount] = useState("");
@@ -92,20 +94,23 @@ const App = () => {
   const askContractToMintNft = async () => {
     try {
       const { ethereum } = window;
+      const id = total; // TODO check TOTAL_MINT_COUNT
 
       if (ethereum) {
         const provider = new ethers.providers.Web3Provider(ethereum);
         const signer = provider.getSigner();
         const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, ABI, signer);
 
+        const { cid } = await fetchCid(id)
+
         console.log("Going to pop wallet now to pay gas...")
-        let nftTxn = await connectedContract.makeAnEpicNFT();
+        let nftTxn = await connectedContract.makeAnEpicNFT(cid, { value: ethers.utils.parseEther(PRICE) });
 
         console.log("Mining...please wait.")
         await nftTxn.wait();
         console.log(nftTxn);
         console.log(`Mined, see transaction: https://rinkeby.etherscan.io/tx/${nftTxn.hash}`);
-
+        // await postMinter({ id, minter: currentAccount })
       } else {
         console.log("Ethereum object doesn't exist!");
       }
@@ -114,6 +119,19 @@ const App = () => {
     }
   }
 
+  const postMinter = async ({ id, minter }) => {
+    const headers = {
+      // TODO 'X-API-KEY': worker['x-api-key'],
+      'content-type': 'application/json'
+    }
+    const response = await fetch(WORKER_URL + '/minter', { method: 'POST', headers, body: JSON.stringify({ id, minter }) });
+    return response.json()
+  }
+
+  const fetchCid = async (id) => {
+    const response = await fetch(WORKER_URL + '/cid/' + id);
+    return response.json()
+  }
 
   useEffect(() => {
     checkIfWalletIsConnected();
@@ -131,9 +149,12 @@ const App = () => {
       <p className="sub-text">
         Minted { total } / { TOTAL_MINT_COUNT } 
       </p>
-      <button onClick={askContractToMintNft} className="cta-button connect-wallet-button">
-        Mint NFT
-      </button>
+      {total < TOTAL_MINT_COUNT ?
+        <button onClick={askContractToMintNft} className="cta-button connect-wallet-button">
+          Mint NFT
+        </button> :
+        <p>Sold out</p>
+      }
     </div>
   )
 
