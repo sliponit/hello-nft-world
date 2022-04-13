@@ -23,9 +23,10 @@ router.get("/data", async () => {
   const now = new Date().valueOf() / 1000
   const tokens = data
     .filter(token => token.minter)
-    .map(({ duration, hibernateEnd, sleepEnd}) => ({
+    .map(({ duration, minter, hibernateEnd, sleepEnd}) => ({
       duration,
-      state: hibernateEnd && now < hibernateEnd ? `hibernation for ${duration}d` : (sleepEnd && now < sleepEnd ? `asleep for ${duration}h` : 'awake')
+      minter,
+      state: hibernateEnd && now < hibernateEnd ? `hibernation for ${duration} days` : (sleepEnd && now < sleepEnd ? `asleep for ${duration} hours` : 'awake')
     })) // todo baseSvg/nullSvg
   const headers = { ...corsHeaders, 'Content-type': 'application/json' }
   return new Response(JSON.stringify({ tokens }), { headers })

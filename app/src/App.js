@@ -146,7 +146,6 @@ const App = () => {
 
   useEffect(() => {
     checkIfWalletIsConnected();
-    fetchData();
   }, [])
 
   // Render Methods
@@ -159,13 +158,15 @@ const App = () => {
   const renderMintUI = () => (
     <div>
       <p className="sub-text">
-        Minted { total } / { TOTAL_MINT_COUNT } 
+       { total } / { TOTAL_MINT_COUNT } SCCs have been minted
       </p>
-      {total < TOTAL_MINT_COUNT ?
+      {tokens.map(t => t.minter).includes(currentAccount) ? 
+        <p className="sub-text">You already minted one!</p> :
+        (total < TOTAL_MINT_COUNT ?
         <button onClick={askContractToMintNft} className="cta-button connect-wallet-button">
           Mint NFT
         </button> :
-        <p>Sold out</p>
+        <p className="sub-text">Sold out</p>)
       }
     </div>
   )
