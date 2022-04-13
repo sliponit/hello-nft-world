@@ -1,5 +1,3 @@
-
-
 import { baseSvgs } from "./baseSvgs"
 
 export const nullSvg = (input) => {

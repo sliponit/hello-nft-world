@@ -86,6 +86,8 @@ const App = () => {
         const total = await connectedContract.getTotalNFTsMintedSoFar();
         setTotal(total.toNumber());
         console.log("Retrieved total count...", total.toNumber());
+
+        await fetchData();
       } else {
         console.log("Ethereum object doesn't exist!");
       }
@@ -169,15 +171,13 @@ const App = () => {
   )
 
   const renderMinted = () => (
-    tokens.map((token, id) =>
-      <span className="footer-text">
-        <span>
-          <a key={id} href={tokenAddress(id)} target="blank_">
-            <img src={WORKER_URL + '/svg/' + id} />
-          </a>
-        </span>
-        <span>{token.duration}</span>
-      </span>
+    tokens.map((token, id) => // <a key={id} href={tokenAddress(id)} target="blank_"></a>
+      <div className="column" key={id}>
+        <div className="content">
+          <img src={WORKER_URL + '/svg/' + id} alt={token.id} className="img-cent" />
+          <p className="footer-text">{`${token.state}- sleep time ${token.duration}h`}</p>
+        </div>
+      </div>
     )
   )
 
@@ -191,7 +191,7 @@ const App = () => {
           </p>
           {currentAccount === "" ? renderNotConnectedContainer() : renderMintUI()}
         </div>
-        <div className="body-container">
+        <div className="row">
           {renderMinted()}
         </div>
         <div className="footer-container">
