@@ -184,6 +184,21 @@ const App = () => {
     )
   )
 
+  const renderPrinciple = () => (
+    <div className="body-container">
+      <ul>
+        <li>Vision: Create a fun experience to learn not to buy/sell NFTs too fast, i.e. before a good night sleep</li>
+        <li> A NFT collection of 40 Sleepy Cartoon Characters on the Ethereum blockchain (Rinkeby testnet)</li>
+        <li>Each character has a unique sleeping duration between 9 and 48 hours.</li>
+        <li>The sleeping duration depends on the traits of the character, e.g. a smiling characters needs less sleep than a sad one. Rare characters have a red element and the longest sleeping need!</li>
+        <li>This sleeping duration needs to be respected between buying an NFT and listing it for sale.</li>
+        <li>Otherwise the character goes in hibernation between 9 and 48 days!</li>
+        <li>When a characters is asleep, it appears with a grey background. When it hibernates, it goes black!</li>
+        <li>One mint (0.1 ETH) per wallet. The wallet address appears as a watermark on the NFT image.</li>
+      </ul>
+    </div>
+  )
+
   return (
     <div className="App">
       <div className="container">
@@ -198,6 +213,8 @@ const App = () => {
         <div className="row">
           {renderMinted()}
         </div>
+        <h2 className="sub-text">Principle</h2>
+        {renderPrinciple()}
         <div className="footer-container">
           <img alt="Opensea Logo" className="opensea-logo" src={openseaLogo} />
           <a

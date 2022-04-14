@@ -17,6 +17,12 @@
   padding-top: 30px;
 }
 
+.body-container {
+  text-align: left;
+  font-size: 25px;
+  color: white;
+}
+
 .header {
   margin: 0;
   font-size: 50px;
