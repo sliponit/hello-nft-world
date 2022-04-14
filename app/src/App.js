@@ -194,7 +194,7 @@ const App = () => {
           </p>
           {currentAccount === "" ? renderNotConnectedContainer() : renderMintUI()}
         </div>
-        <h2 className="sub-text">Gallery</h2>
+        {tokens.length && <h2 className="sub-text">Gallery</h2>}
         <div className="row">
           {renderMinted()}
         </div>
