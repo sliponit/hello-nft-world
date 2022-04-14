@@ -188,9 +188,9 @@ const App = () => {
     <div className="App">
       <div className="container">
         <div className="header-container">
-          <p className="header gradient-text">Sleepy Cartoon Characters NFT Collection</p>
+          <p className="header gradient-text">Sleepy Cartoon Characters</p>
           <p className="sub-text">
-            A collection of 40 Sleepy Cartoon Characters
+            A NFT collection of 40 Sleepy Cartoon Characters
           </p>
           {currentAccount === "" ? renderNotConnectedContainer() : renderMintUI()}
         </div>
