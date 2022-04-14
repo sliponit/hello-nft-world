@@ -1,4 +1,6 @@
-import fetch from 'node-fetch'
+import fetch from 'node-fetch';
+import cron from 'node-cron';
+
 
 // TODO only_opensea
 const OPENSEA_API_URL = 'https://rinkeby-api.opensea.io/api/v1/events?collection_slug=sleepy-cartoon-characters&only_opensea=false'
@@ -56,4 +58,7 @@ async function run () {
   }  
 }
 
-run()
+cron.schedule('* * * * *', () => {
+  console.log('running a task every minute', JSON.stringify(lastId));
+  return run()
+}
