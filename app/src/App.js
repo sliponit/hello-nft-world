@@ -178,7 +178,7 @@ const App = () => {
           <a href={tokenAddress(id)} target="blank_">
             <img src={WORKER_URL + '/svg/' + id} alt={token.id} className="img-cent" />
           </a>
-          <p className="footer-text">{token.state}</p>
+          <p className="footer-text">{`SCC #${id} ${token.state}`}</p>
         </div>
       </div>
     )
@@ -194,7 +194,7 @@ const App = () => {
         <li>This sleeping duration needs to be respected between buying a NFT and listing it for sale.</li>
         <li>Otherwise the character goes in hibernation between 9 and 48 days!</li>
         <li>When a characters is asleep, it appears with a grey background. When it hibernates, it goes black!</li>
-        <li>One mint (0.1 ETH) per wallet. The wallet address appears as a watermark on the NFT image.</li>
+        <li>One mint (0.1 ETH) per wallet. The minter wallet address appears as a watermark on the NFT image.</li>
       </ul>
     </div>
   )

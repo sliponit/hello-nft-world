@@ -11,10 +11,10 @@ Create a fun experience to learn not to buy/sell NFTs too fast, i.e. before a go
 - This sleeping duration needs to be respected between buying a NFT and listing it for sale.
 - Otherwise the character goes in hibernation between 9 and 48 days!
 - When a characters is asleep, it appears with a grey background. When it hibernates, it goes black!
-- One mint per wallet. The wallet address appears as a watermark on the NFT image.
+- One mint per wallet. The minter wallet address appears as a watermark on the NFT image.
 
 ## Monetization
-0.1 ETH per min
+0.1 ETH per mint
 
 ## Directory
 - api -> cloudflare worker 
