@@ -59,6 +59,6 @@ async function run () {
 }
 
 cron.schedule('* * * * *', () => {
-  console.log('running a task every minute', JSON.stringify(lastId));
+  console.log('running a task every minute', JSON.stringify(_lastId));
   return run()
 })
