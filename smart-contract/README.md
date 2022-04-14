@@ -11,5 +11,5 @@ npx hardhat clean
 node scripts/sample-script.js
 npx hardhat run scripts/run.js
 npx hardhat run scripts/deploy.js --network rinkeby
-npx hardhat verify 0x8Eb1372B94De4578623e6e34D5f951f07B23ed7B --network rinkeby
+npx hardhat verify 0xBf3c7e598211F33b765F304521959173Bb77F6dA --network rinkeby
 ```

@@ -1,5 +1,5 @@
-export const CONTRACT_ADDRESS = "0x8Eb1372B94De4578623e6e34D5f951f07B23ed7B"
-export const OPENSEA_LINK = "https://testnets.opensea.io/collection/squarenft-xmhushodoy"
+export const CONTRACT_ADDRESS = "0xBf3c7e598211F33b765F304521959173Bb77F6dA"
+export const OPENSEA_LINK = "https://testnets.opensea.io/collection/sleepy-cartoon-characters"
 export const ABI = [
   {
     "inputs": [],
@@ -151,19 +151,6 @@ export const ABI = [
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "getAllMinters",
-    "outputs": [
-      {
-        "internalType": "address[]",
-        "name": "",
-        "type": "address[]"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
     "inputs": [
       {
         "internalType": "uint256",
@@ -243,25 +230,6 @@ export const ABI = [
     "name": "makeAnEpicNFT",
     "outputs": [],
     "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "name": "minters",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
     "type": "function"
   },
   {

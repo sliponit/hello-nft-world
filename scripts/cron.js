@@ -1,7 +1,7 @@
 import fetch from 'node-fetch'
 
 // TODO only_opensea
-const OPENSEA_API_URL = 'https://rinkeby-api.opensea.io/api/v1/events?collection_slug=squarenft-xmhushodoy&only_opensea=false'
+const OPENSEA_API_URL = 'https://rinkeby-api.opensea.io/api/v1/events?collection_slug=sleepy-cartoon-characters&only_opensea=false'
 const WORKER_URL = 'https://nft-api.sliponit9471.workers.dev/events' // TODO 'http://127.0.0.1:8787/events'
 
 const _lastId = {};
