@@ -7,14 +7,11 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "hardhat/console.sol";
 
-// We need to import the helper functions from the contract that we copy/pasted.
-import { Base64 } from "./libraries/Base64.sol";
-
 contract MyEpicNFT is ERC721URIStorage {
   using Counters for Counters.Counter;
   Counters.Counter private _tokenIds;
 
-  uint public constant MAX_SUPPLY = 50;
+  uint public constant MAX_SUPPLY = 40;
   
   address payable public owner;
 
