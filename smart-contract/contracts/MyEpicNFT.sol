@@ -22,7 +22,7 @@ contract MyEpicNFT is ERC721URIStorage {
 
   constructor() payable ERC721 ("Sleepy Cartoon Characters", "SCC")  {
     owner = payable(msg.sender);
-    console.log("TODO This is my NFT contract. Woah!");
+    console.log("This is my NFT contract. Woah!");
   }
 
   function makeAnEpicNFT(string calldata cid) public payable  {

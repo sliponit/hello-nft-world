@@ -17,7 +17,7 @@ Create a fun experience to learn not to buy/sell NFTs too fast, i.e. before a go
 0.1 ETH per mint
 
 ## Directory
-- api -> cloudflare worker 
+- api -> cloudflare worker https://nft-api.sliponit9471.workers.dev
 - app -> react app hosted on https://sleepy-cartoon-characters.pages.dev/
 - smart-contract -> solidity for https://rinkeby.etherscan.io/address/0xbf3c7e598211f33b765f304521959173bb77f6da 
 - scripts 
@@ -25,8 +25,9 @@ Create a fun experience to learn not to buy/sell NFTs too fast, i.e. before a go
   - pinata.js to create ipfs files
   - cron.js backend script updating data every minute (should be moved in api for consistency, see https://developers.cloudflare.com/workers/examples/cron-trigger/)
 
-## Known limitation
+## Known limitations
 - Offer acceptation in WETH and transfers not taken into account
 
 ## Credits
 - https://freesvg.org/cartoon-mouth-and-eyes for art elements
+- https://app.buildspace.so/projects/CO77556be5-25e9-49dd-a799-91a2fc29520e for contract and app skeletons

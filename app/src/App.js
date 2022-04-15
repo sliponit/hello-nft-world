@@ -100,7 +100,7 @@ const App = () => {
   const askContractToMintNft = async () => {
     try {
       const { ethereum } = window;
-      const id = total; // TODO check TOTAL_MINT_COUNT
+      const id = total;
       if (ethereum) {
         const provider = new ethers.providers.Web3Provider(ethereum);
         const signer = provider.getSigner();

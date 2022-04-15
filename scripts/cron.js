@@ -51,7 +51,7 @@ async function postWorker(data) {
 async function run () {
   // events
   const createds = await fetchNewEvents({ event_type: 'created' });
-  await new Promise(resolve => setTimeout(resolve, 1000)); // TODO rate limit api
+  await new Promise(resolve => setTimeout(resolve, 1000)); // rate limit api
   const successfuls = await fetchNewEvents({ event_type: 'successful' });
   if (createds.length || successfuls.length) {
     console.log(_lastId, { createds, successfuls});

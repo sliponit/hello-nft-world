@@ -19,7 +19,7 @@ const mintedSvg = (i, address, asleep) => {
 
 export default async (i) => {
   const values = await SCC.get('data', { type: 'json' })
-  const { hibernateEnd, sleepEnd, minter } = values[i] // TODO
+  const { hibernateEnd, sleepEnd, minter } = values[i]
   const now = new Date().valueOf()
   if (hibernateEnd && now / 1000 < hibernateEnd) return nullSvg(minter)
   else if (sleepEnd && now / 1000 < sleepEnd) return mintedSvg(i, minter, true)
