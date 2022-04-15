@@ -63,6 +63,7 @@ const App = () => {
 
   // Setup our listener.
   const setupEventListener = async () => {
+    await fetchData();
     // Most of this looks the same as our function askContractToMintNft
     try {
       const { ethereum } = window;
@@ -78,7 +79,9 @@ const App = () => {
         // If you're familiar with webhooks, it's very similar to that!
         connectedContract.on("NewEpicNFTMinted", (from, tokenId) => {
           console.log(from, tokenId.toNumber())
-          alert(`Hey there! We've minted your NFT and sent it to your wallet. It may be blank right now. It can take a max of 10 min to show up on OpenSea. Here's the link: ${tokenAddress(tokenId.toNumber())}`)
+          if (!tokens.map(token => token.minter).includes(currentAccount)) {
+            alert(`Hey there! We've minted your NFT and sent it to your wallet. It may be blank right now. It can take a max of 10 min to show up on OpenSea. Here's the link: ${tokenAddress(tokenId.toNumber())}`)
+          }
         });
 
         console.log("Setup event listener!")
@@ -86,8 +89,6 @@ const App = () => {
         const total = await connectedContract.getTotalNFTsMintedSoFar();
         setTotal(total.toNumber());
         console.log("Retrieved total count...", total.toNumber());
-
-        await fetchData();
       } else {
         console.log("Ethereum object doesn't exist!");
       }
