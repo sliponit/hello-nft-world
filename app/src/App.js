@@ -6,7 +6,7 @@ import { ABI, CONTRACT_ADDRESS, OPENSEA_LINK } from './utils/contract';
 
 const TOTAL_MINT_COUNT = 40;
 const PRICE = '0.1';
-const WORKER_URL = 'https://nft-api.sliponit9471.workers.dev'
+const WORKER_URL = 'https://nft-api.sliponit9471.workers.dev' // 'http://127.0.0.1:8787'
 
 const tokenAddress = id => `https://testnets.opensea.io/assets/${CONTRACT_ADDRESS}/${id}`
 
@@ -100,7 +100,6 @@ const App = () => {
     try {
       const { ethereum } = window;
       const id = total; // TODO check TOTAL_MINT_COUNT
-
       if (ethereum) {
         const provider = new ethers.providers.Web3Provider(ethereum);
         const signer = provider.getSigner();
@@ -126,7 +125,7 @@ const App = () => {
 
   const postMinter = async ({ id, minter }) => {
     const headers = {
-      // TODO 'X-API-KEY': worker['x-api-key'],
+      'X-API-KEY': process.env.REACT_APP_X_API_KEY,
       'content-type': 'application/json'
     }
     const response = await fetch(WORKER_URL + '/minter', { method: 'POST', headers, body: JSON.stringify({ id, minter }) });

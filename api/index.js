@@ -23,7 +23,7 @@ router.get("/data", async () => {
   const now = new Date().valueOf() / 1000
   const tokens = data
     .filter(token => token.minter)
-    .map(({ duration, minter, hibernateEnd, sleepEnd}) => ({
+    .map(({ duration, minter, hibernateEnd, sleepEnd }) => ({
       duration,
       minter,
       state: hibernateEnd && now < hibernateEnd ? `hibernation for ${duration} days` : (sleepEnd && now < sleepEnd ? `asleep for ${duration} hours` : 'awake')
@@ -32,7 +32,7 @@ router.get("/data", async () => {
   return new Response(JSON.stringify({ tokens }), { headers })
 })
 
-router.get("/svg/:id", async({ params }) => {
+router.get("/svg/:id", async ({ params }) => {
   // TODO: try/catch 
   const { id } = params
   if (0 <= id && id < 40) {
@@ -43,7 +43,7 @@ router.get("/svg/:id", async({ params }) => {
   }
 })
 
-router.get("/cid/:id", async({ params }) => {
+router.get("/cid/:id", async ({ params }) => {
   const { id } = params
   const data = await SCC.get('data', { type: 'json' })
   const { cid } = data[id]
@@ -53,9 +53,9 @@ router.get("/cid/:id", async({ params }) => {
 
 // curl -X POST <worker> -H "Content-Type: application/json" -d '{"abc": "def"}'
 router.post("/events", async request => {
-  // TODO if (request.headers.get('X-API-KEY') !== X_API_KEY) {
-  //   return new Response('Forbidden', { status: 403 })
-  // }
+  if (request.headers.get('X-API-KEY') !== X_API_KEY) {
+    return new Response('Forbidden', { status: 403 })
+  }
   // if (request.headers.get("Content-Type") === "application/json") {
   const data = await request.json()
   await postEvents(data)
@@ -69,14 +69,14 @@ router.post("/events", async request => {
 router.options('/minter', () => new Response('OK', { headers: corsHeaders }))
 
 router.post("/minter", async request => {
-  // TODO if (request.headers.get('X-API-KEY') !== X_API_KEY) {
-  //   return new Response('Forbidden', { status: 403 })
-  // }
+  if (request.headers.get('X-API-KEY') !== X_API_KEY) {
+    return new Response('Forbidden', { status: 403 })
+  }
   // if (request.headers.get("Content-Type") === "application/json") {
   const { id, minter } = await request.json()
   const data = await SCC.get('data', { type: 'json' })
   if (data[id].minter) return new Response('Forbidden', { status: 403 })
-  
+
   data[id].minter = minter
   await SCC.put('data', JSON.stringify(data))
   const headers = { ...corsHeaders, 'Content-type': 'application/json' }

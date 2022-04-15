@@ -1,10 +1,11 @@
+import 'dotenv/config'
 import fetch from 'node-fetch';
 import cron from 'node-cron';
 
 
 // TODO only_opensea
 const OPENSEA_API_URL = 'https://rinkeby-api.opensea.io/api/v1/events?collection_slug=sleepy-cartoon-characters&only_opensea=false'
-const WORKER_URL = 'https://nft-api.sliponit9471.workers.dev/events' // TODO 'http://127.0.0.1:8787/events'
+const WORKER_URL = 'https://nft-api.sliponit9471.workers.dev/events' // 'http://127.0.0.1:8787/events' 
 
 const _lastId = {};
 
@@ -36,7 +37,7 @@ async function fetchNewEvents ({ event_type }) {
 
 const HEADERS = {
   'Content-Type': 'application/json',
-  // 'X-API-KEY': process.env.WORKER_API_KEY
+  'X-API-KEY': process.env.X_API_KEY
 }
 
 async function postWorker(data) {
