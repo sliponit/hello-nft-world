@@ -17,8 +17,8 @@ Create a fun experience to learn not to buy/sell NFTs too fast, i.e. before a go
 0.1 ETH per mint
 
 ## Directory
-- api -> cloudflare worker https://nft-api.sliponit9471.workers.dev
-- app -> react app hosted on https://sleepy-cartoon-characters.pages.dev/
+- api -> cloudflare worker
+- app -> react app
 - smart-contract -> solidity for https://rinkeby.etherscan.io/address/0xbf3c7e598211f33b765f304521959173bb77f6da 
 - scripts 
   - init.js to initialize small DB on cloudflare KV
